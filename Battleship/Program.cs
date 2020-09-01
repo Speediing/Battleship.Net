@@ -12,6 +12,11 @@ namespace Battleship
   _______ / _____\_______\_____     
   \              < < <       |
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.WriteLine("What is the first players name?");
+            string player1Name = Console.ReadLine();
+            Console.WriteLine("What is the second players name?");
+            string player2Name = Console.ReadLine();
+            Game game = new Game();
         }
     }
 }
