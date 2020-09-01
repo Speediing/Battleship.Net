@@ -37,14 +37,16 @@ namespace BattleshipTests
             Dictionary<string, Dictionary<string, string>> testBoard = new Dictionary<string, Dictionary<string, string>>() {
                 { "A", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "B", new Dictionary<string, string>() { { "1", "*" }, { "3", "🚢" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
-                { "C", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
-                { "D", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
+                { "C", new Dictionary<string, string>() { { "1", "*" }, { "3", "🚢" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
+                { "D", new Dictionary<string, string>() { { "1", "*" }, { "3", "🚢" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "E", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "F", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "G", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "H", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } }
             };
-            this.board.PlaceBoat("B", "3", "x");
+            Console.WriteLine(this.board.ReturnBoard["B"]);
+            
+            this.board.PlaceItem("B", "3", "x", "🚢");
             Assert.Equal(this.board.ReturnBoard, testBoard);
         }
     }
