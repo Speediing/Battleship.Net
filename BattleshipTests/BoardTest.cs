@@ -65,8 +65,14 @@ namespace BattleshipTests
             };
             Console.WriteLine(this.board.ReturnBoard["B"]);
 
-            this.board.PlaceMissile("B", "3", "x", "⭕");
+            this.board.PlaceMissile("B", "3", "⭕");
             Assert.Equal(this.board.ReturnBoard, testBoard);
+        }
+
+        [Fact]
+        public void shouldGetPosition()
+        {
+            Assert.Equal("*", this.board.GetValueAtPosition("B", "3"));
         }
     }
 }

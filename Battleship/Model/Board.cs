@@ -7,13 +7,13 @@ namespace Battleship
     {
         private List<string> columns;
         private List<string> rows;
-        Dictionary<string, Dictionary<string, string>> boardValue;
+        private Dictionary<string, Dictionary<string, string>> boardValue;
 
         public Board()
         {
             rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
             columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
-            boardValue = this.InitializeDictionary();
+            boardValue = this.InitializeBoard();
         }
 
         public Dictionary<string, Dictionary<string, string>> ReturnBoard => this.boardValue;
@@ -22,7 +22,6 @@ namespace Battleship
         {
             int rowIndex = rows.IndexOf(row);
             int columnIndex = columns.IndexOf(column);
-            string debug1 = this.rows[rowIndex + 1];
             if (orientation == "x")
             {
                 this.boardValue[row][column] = item;
@@ -38,7 +37,18 @@ namespace Battleship
 
         }
 
-        private Dictionary<string, Dictionary<string, string>> InitializeDictionary()
+        public void PlaceMissile(string row, string column, string item)
+        {
+            this.boardValue[row][column] = item;
+        }
+
+
+        public string GetValueAtPosition(string row, string column)
+        {
+            return this.boardValue[row][column];
+        }
+
+        private Dictionary<string, Dictionary<string, string>> InitializeBoard()
         {
             var board = new Dictionary<string, Dictionary<string, string>>() { };
             foreach (string i in this.rows)
@@ -53,6 +63,6 @@ namespace Battleship
             return board;
         }
 
-        
+       
     }
 }
