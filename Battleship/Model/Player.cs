@@ -22,6 +22,13 @@ namespace Battleship
             rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
             columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
             personalBoatLocation = ("A", "1", "x");
+            opponentsBoatLocation = ("A", "1", "x");
+            missileHits = 0;
+        }
+
+        public string GetName()
+        {
+            return name;
         }
     }
 }
