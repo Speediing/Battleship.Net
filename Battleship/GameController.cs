@@ -86,7 +86,10 @@ namespace Battleship
         public void SetPlayerBoatLocation((string, string, string) playerBoatLoaction)
         {
             GetOpponentPlayer().SetOpponentBoatLocation(playerBoatLoaction);
-            stage = Stage.fireMissile;
+            if(turn == Turn.player2)
+            {
+                stage = Stage.fireMissile;
+            }
             NextTurn();
         }
 
