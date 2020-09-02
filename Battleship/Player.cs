@@ -34,6 +34,11 @@ namespace Battleship
 
         public Board GetPersonalBoard() => personalBoard;
 
+        public void setName(string newName)
+        {
+            this.name = newName;
+        }
+
         public void MoveBoatRight()
         {
             if (personalBoatLocation.Item1 == "F" && personalBoatLocation.Item3 == "x")

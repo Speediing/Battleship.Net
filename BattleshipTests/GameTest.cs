@@ -10,11 +10,13 @@ namespace BattleshipTests
     {
         private Game game;
         private Board board;
+        private Player player;
 
         public GameTest()
         {
             game = new Game();
             board = new Board();
+            player = new Player();
         }
 
         [Fact]
@@ -159,6 +161,17 @@ namespace BattleshipTests
         public void shouldValidateMissileInputIsFalse()
         {
             Assert.False(game.ValidateMissileInput("Bad"));
+        }
+
+        [Fact]
+        public void shouldMoveBoat()
+        {
+            game.MoveBoat(player, "w");
+            game.MoveBoat(player,"a");
+            game.MoveBoat(player,"s");
+            game.MoveBoat(player,"d");
+            game.MoveBoat(player, "r");
+            Assert.Equal(("A", "1", "y"), player.GetBoatLocation());
         }
     }
 }

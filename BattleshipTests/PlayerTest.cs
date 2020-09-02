@@ -44,14 +44,14 @@ namespace BattleshipTests
         public void shouldMoveBoatDown()
         {
             player.MoveBoatDown();
-            Assert.Equal(("A", "7", "x"), player.GetBoatLocation());
+            Assert.Equal(("A", "2", "x"), player.GetBoatLocation());
         }
 
         [Fact]
         public void shouldMoveBoatUp()
         {
             player.MoveBoatUp();
-            Assert.Equal(("A", "2", "x"), player.GetBoatLocation());
+            Assert.Equal(("A", "8", "x"), player.GetBoatLocation());
         }
 
         [Fact]
@@ -65,17 +65,6 @@ namespace BattleshipTests
         public void shouldGetOpponentBoatLocation()
         {
             Assert.Equal(("A", "1", "x"), player.GetOpponentBoatLocation());
-        }
-
-        [Fact]
-        public void shouldMoveBoat()
-        {
-            player.MoveBoat("w");
-            player.MoveBoat("a");
-            player.MoveBoat("s");
-            player.MoveBoat("d");
-            player.MoveBoat("r");
-            Assert.Equal(("A", "1", "y"), player.GetBoatLocation());
         }
 
         [Fact]

@@ -8,43 +8,51 @@ namespace Battleship
     {
         private List<string> columns;
         private List<string> rows;
+        private GameController gameController;
 
         public Game()
         {
             rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
             columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
+            gameController = new GameController();
         }
 
         public void StartGame(string player1Name, string player2Name)
         {
-            Player player1 = new Player(player1Name);
-            Player player2 = new Player(player2Name);
-            (string, string, string) player1BoatLoaction = PlaceBoat(player1);
-            (string, string, string) player2BoatLoaction = PlaceBoat(player2);
-            player1.SetOpponentBoatLocation(player2BoatLoaction);
-            player1.SetOpponentBoatLocation(player1BoatLoaction);
+            gameController.setPlayerNames(player1Name, player2Name);
+            (string, string, string) player1BoatLoaction = RenderPlaceBoat(gameController.getPlayer1());
+            (string, string, string) player2BoatLoaction = RenderPlaceBoat(gameController.getPlayer2());
+            gameController.SetPlayerBoatLocation(player1BoatLoaction, player2BoatLoaction);
             while (true)
             {
-                if (TakeTurn(player1))
+                if (RenderTurn(gameController.getPlayer1()))
                 {
                     break;
                 }
-                if (TakeTurn(player2))
+                if (RenderTurn(gameController.getPlayer2()))
                 {
                     break;
                 }
             }
         }
 
-        public Boolean TakeTurn(Player player)
+        public bool RenderTurn(Player player)
         {
             Console.Clear();
             Console.WriteLine(RenderBoard(player.GetPersonalBoard()));
             Console.WriteLine(player.GetName() + " it's time to pick a location to fire! Enter your location like: 'B5'\n\n");
+            string fireSpot = GetFireSpot(player);
+            bool result = player.FireMissile(fireSpot[0].ToString(), fireSpot[1].ToString());
+            return RenderTurnResult(player, result);
+
+        }
+
+        private string GetFireSpot(Player player)
+        {
             string fireSpot = Console.ReadLine();
             while (true)
             {
-                if(ValidateMissileInput(fireSpot) == true)
+                if (ValidateMissileInput(fireSpot) == true)
                 {
                     break;
                 }
@@ -54,14 +62,21 @@ namespace Battleship
                     fireSpot = Console.ReadLine();
                 }
             }
-            Boolean result = player.FireMissile(fireSpot[0].ToString(), fireSpot[1].ToString());
+
+            return fireSpot;
+        }
+
+        private bool RenderTurnResult(Player player, bool result)
+        {
             Console.Clear();
             Console.WriteLine(RenderBoard(player.GetPersonalBoard()));
             if (result)
             {
                 Console.WriteLine("You hit their ship, nice job! Press enter to end your turn");
                 Console.ReadLine();
-            }else{
+            }
+            else
+            {
                 Console.WriteLine("You missed :( Press enter to end your turn");
                 Console.ReadLine();
             }
@@ -71,30 +86,36 @@ namespace Battleship
                 return true;
             }
             return false;
-
         }
 
-        public (string,string,string) PlaceBoat(Player player)
+        public (string, string, string) RenderPlaceBoat(Player player)
         {
-            Console.Clear();
+
             string playerString = player.GetName() + " it's time to pick your ship's location! \nUse w to go up, \ns to go down, \na to go left, \nd to go right, \nand r to rotate your ship 90 degrees. \nPress e when you have made your decision!\n\n";
-            Console.WriteLine(playerString);
-            (string, string, string) boatLocation = player.GetBoatLocation();
-            Console.WriteLine(RenderBoardWithBoat(boatLocation.Item1, boatLocation.Item2, boatLocation.Item3));
+            RenderCurrentBoats(player, playerString, "");
             while (true)
             {
                 string move = Console.ReadLine();
-                Console.Clear();
-                Console.WriteLine(playerString);
-                player.MoveBoat(move);
-                boatLocation = player.GetBoatLocation();
-                Console.WriteLine(RenderBoardWithBoat(boatLocation.Item1, boatLocation.Item2, boatLocation.Item3));
-                if(move == "e")
+                RenderCurrentBoats(player, playerString, move);
+                if (move == "e")
                 {
                     break;
                 }
             }
             return player.GetBoatLocation();
+        }
+
+        private (string, string, string) RenderCurrentBoats(Player player, string playerString, string move)
+        {
+            Console.Clear();
+            Console.WriteLine(playerString);
+            if (move != "")
+            {
+                this.MoveBoat(player, move);
+            }
+            (string, string, string) boatLocation = player.GetBoatLocation();
+            Console.WriteLine(RenderBoardWithBoat(boatLocation.Item1, boatLocation.Item2, boatLocation.Item3));
+            return boatLocation;
         }
 
         public string RenderBoard(Board board)
@@ -137,6 +158,30 @@ namespace Battleship
             else
             {
                 return false;
+            }
+        }
+
+        public void MoveBoat(Player player, string move)
+        {
+            if (move == "w")
+            {
+                player.MoveBoatUp();
+            }
+            if (move == "a")
+            {
+                player.MoveBoatLeft();
+            }
+            if (move == "s")
+            {
+                player.MoveBoatDown();
+            }
+            if (move == "d")
+            {
+                player.MoveBoatRight();
+            }
+            if (move == "r")
+            {
+                player.RotateBoat();
             }
         }
     }
