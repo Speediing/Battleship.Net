@@ -60,27 +60,27 @@ namespace Battleship
 
         public void MoveBoatDown()
         {
-            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "x")
+            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "y")
             {
                 personalBoatLocation.Item2 = "7";
             }
             else
             {
                 int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
-                personalBoatLocation.Item2 = columns[columnIndex - 1];
+                personalBoatLocation.Item2 = columns[columnIndex + 1];
             }
         }
 
         public void MoveBoatUp()
         {
-            if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "x")
+            if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "y")
             {
                 personalBoatLocation.Item2 = "1";
             }
             else
             {
                 int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
-                personalBoatLocation.Item2 = columns[columnIndex + 1];
+                personalBoatLocation.Item2 = columns[columnIndex - 1];
             }
         }
 

@@ -148,5 +148,17 @@ namespace BattleshipTests
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
         }
+
+        [Fact]
+        public void shouldValidateMissileInputIsTrue()
+        {
+            Assert.True(game.ValidateMissileInput("A1"));
+        }
+
+        [Fact]
+        public void shouldValidateMissileInputIsFalse()
+        {
+            Assert.False(game.ValidateMissileInput("Bad"));
+        }
     }
 }
