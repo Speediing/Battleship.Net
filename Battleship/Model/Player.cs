@@ -26,9 +26,150 @@ namespace Battleship
             missileHits = 0;
         }
 
-        public string GetName()
+        public string GetName() => name;
+
+        public (string, string, string) GetBoatLocation() => personalBoatLocation;
+
+        public (string, string, string) GetOpponentBoatLocation() => opponentsBoatLocation;
+
+        public Board GetPersonalBoard() => personalBoard;
+
+        public void MoveBoatRight()
         {
-            return name;
+            if (personalBoatLocation.Item1 == "F" && personalBoatLocation.Item3 == "x")
+            {
+                personalBoatLocation.Item1 = "A";
+            } else {
+                int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
+                personalBoatLocation.Item1 = rows[rowIndex + 1];
+            }
+        }
+
+        public void MoveBoatLeft()
+        {
+            if (personalBoatLocation.Item1 == "A" && personalBoatLocation.Item3 == "x")
+            {
+                personalBoatLocation.Item1 = "F";
+            }
+            else
+            {
+                int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
+                personalBoatLocation.Item1 = rows[rowIndex - 1];
+            }
+        }
+
+        public void MoveBoatDown()
+        {
+            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "x")
+            {
+                personalBoatLocation.Item2 = "7";
+            }
+            else
+            {
+                int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
+                personalBoatLocation.Item2 = columns[columnIndex - 1];
+            }
+        }
+
+        public void MoveBoatUp()
+        {
+            if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "x")
+            {
+                personalBoatLocation.Item2 = "1";
+            }
+            else
+            {
+                int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
+                personalBoatLocation.Item2 = columns[columnIndex + 1];
+            }
+        }
+
+        public void RotateBoat()
+        {
+            if (personalBoatLocation.Item2 == "7" && personalBoatLocation.Item3 == "x")
+            {
+                this.MoveBoatUp();
+            }
+            if (personalBoatLocation.Item2 == "8" && personalBoatLocation.Item3 == "x")
+            {
+                this.MoveBoatUp();
+                this.MoveBoatUp();
+            }
+            if (personalBoatLocation.Item1 == "G" && personalBoatLocation.Item3 == "y")
+            {
+                this.MoveBoatLeft();
+            }
+            if (personalBoatLocation.Item1 == "H" && personalBoatLocation.Item3 == "y")
+            {
+                this.MoveBoatLeft();
+                this.MoveBoatLeft();
+            }
+            if (personalBoatLocation.Item3 == "y")
+            {
+                personalBoatLocation.Item3 = "x";
+            } else
+            {
+                personalBoatLocation.Item3 = "y";
+            }
+        }
+
+        public void MoveBoat(string move)
+        {
+            if(move == "w")
+            {
+                this.MoveBoatUp();
+            }
+            if (move == "a")
+            {
+                this.MoveBoatLeft();
+            }
+            if (move == "s")
+            {
+                this.MoveBoatDown();
+            }
+            if (move == "d")
+            {
+                this.MoveBoatRight();
+            }
+            if (move == "r")
+            {
+                this.RotateBoat();
+            }
+        }
+
+        public void SetOpponentBoatLocation((string, string, string) location)
+        {
+            opponentsBoatLocation = location;
+            opponentBoard.PlaceItem(location.Item1, location.Item2, location.Item3, "x");
+        }
+
+        public Boolean FireMissile(string row, string column)
+        {
+            string opponentSpot = opponentBoard.GetValueAtPosition(row, column);
+            if (opponentSpot == "x")
+            {
+                personalBoard.PlaceMissile(row, column, "🚢");
+                opponentBoard.PlaceMissile(row, column, "HIT");
+                missileHits += 1;
+                return true;
+            }
+            else
+            {
+                personalBoard.PlaceMissile(row, column, "⭕");
+                return false;
+            }
+        }
+
+        public Boolean HasWon()
+        {
+            if (missileHits >= 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

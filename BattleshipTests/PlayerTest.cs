@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Battleship;
 using Xunit;
 
@@ -19,6 +20,7 @@ namespace BattleshipTests
             Assert.Equal("name", player.GetName());
         }
 
+        [Fact]
         public void shouldGetBoatLocation()
         {
             Assert.Equal(("A", "1", "x"), player.GetBoatLocation());
@@ -35,21 +37,21 @@ namespace BattleshipTests
         public void shouldMoveBoatLeft()
         {
             player.MoveBoatLeft();
-            Assert.Equal(("B", "1", "x"), player.GetBoatLocation());
+            Assert.Equal(("F", "1", "x"), player.GetBoatLocation());
         }
 
         [Fact]
         public void shouldMoveBoatDown()
         {
             player.MoveBoatDown();
-            Assert.Equal(("B", "1", "x"), player.GetBoatLocation());
+            Assert.Equal(("A", "7", "x"), player.GetBoatLocation());
         }
 
         [Fact]
         public void shouldMoveBoatUp()
         {
             player.MoveBoatUp();
-            Assert.Equal(("B", "1", "x"), player.GetBoatLocation());
+            Assert.Equal(("A", "2", "x"), player.GetBoatLocation());
         }
 
         [Fact]
@@ -63,6 +65,17 @@ namespace BattleshipTests
         public void shouldGetOpponentBoatLocation()
         {
             Assert.Equal(("A", "1", "x"), player.GetOpponentBoatLocation());
+        }
+
+        [Fact]
+        public void shouldMoveBoat()
+        {
+            player.MoveBoat("w");
+            player.MoveBoat("a");
+            player.MoveBoat("s");
+            player.MoveBoat("d");
+            player.MoveBoat("r");
+            Assert.Equal(("A", "1", "y"), player.GetBoatLocation());
         }
 
         [Fact]
@@ -85,38 +98,40 @@ namespace BattleshipTests
                 { "G", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } },
                 { "H", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } }
             };
-            Assert.Equal(player.GetPersonalBoard(), testBoard);
+            Assert.Equal(player.GetPersonalBoard().ReturnBoard, testBoard);
         }
 
         [Fact]
-        public void shouldMissileHit()
+        public void shoulHavedMissileHit()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
-            Assert.Equal(true, player.FireMissile(("A", "1")));
+            Assert.True(player.FireMissile("A", "1"));
+            Assert.True(player.FireMissile("B", "1"));
+            Assert.True(player.FireMissile("C", "1"));
         }
 
         [Fact]
-        public void shouldMissileMiss()
+        public void shouldHaveMissileMiss()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
-            Assert.Equal(false, player.FireMissile(("A", "1")));
+            Assert.False(player.FireMissile("E", "1"));
         }
 
         [Fact]
-        public void shouldPlayerLost()
+        public void shouldHavePlayerLost()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
             Assert.Equal(false, player.HasWon());
         }
 
         [Fact]
-        public void shouldPlayerWin()
+        public void shouldHavePlayerWin()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
-            player.FireMissile("A", "1")
-            player.FireMissile("B", "1")
-            player.FireMissile("C", "1")
-            Assert.Equal(false, player.HasWon());
+            player.FireMissile("A", "1");
+            player.FireMissile("B", "1");
+            player.FireMissile("C", "1");
+            Assert.Equal(true, player.HasWon());
         }
     }
 }
