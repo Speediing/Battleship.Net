@@ -4,51 +4,84 @@ using System.Linq;
 
 namespace Battleship
 {
-    public class Game
+    public class GameView
     {
         private List<string> columns;
         private List<string> rows;
         private GameController gameController;
 
-        public Game()
+        public GameView()
         {
             rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
             columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
             gameController = new GameController();
         }
 
-        public void StartGame(string player1Name, string player2Name)
+        public void StartGame()
         {
-            gameController.setPlayerNames(player1Name, player2Name);
-            (string, string, string) player1BoatLoaction = RenderPlaceBoat(gameController.getPlayer1());
-            (string, string, string) player2BoatLoaction = RenderPlaceBoat(gameController.getPlayer2());
-            gameController.SetPlayerBoatLocation(player1BoatLoaction, player2BoatLoaction);
-            while (true)
+            bool gameInProgress = true;
+            while (gameInProgress)
             {
-                if (RenderTurn(gameController.getPlayer1()))
+                switch (gameController.getCurrentStage())
                 {
-                    break;
-                }
-                if (RenderTurn(gameController.getPlayer2()))
-                {
-                    break;
+                    case Stage.setNames:
+                        {
+                            (string, string) names = GetPlayerNames();
+                            gameController.setPlayerNames(names.Item1, names.Item2);
+                            break;
+                        }
+                    case Stage.setBoats:
+                        {
+                            (string, string, string) player1BoatLoaction = RenderPlaceBoat();
+                            (string, string, string) player2BoatLoaction = RenderPlaceBoat();
+                            gameController.SetPlayerBoatLocation(player1BoatLoaction, player2BoatLoaction);
+                            break;
+                        }
+                    case Stage.fireMissile:
+                        {
+                            RenderTurn();
+                            break;
+                        }
+                    case Stage.gameOver:
+                        {
+                            gameInProgress = false;
+                            break;
+                        }
                 }
             }
+
         }
 
-        public bool RenderTurn(Player player)
+        public (string, string) GetPlayerNames()
         {
+            Console.WriteLine(@"WELCOME TO JASON'S BATTLESHIP
+                 __ / ___
+          _____ / ______ |
+  _______ / _____\_______\_____     
+  \              < < <       |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.WriteLine("What is the first players name?");
+            string player1Name = Console.ReadLine();
+            Console.WriteLine("What is the second players name?");
+            string player2Name = Console.ReadLine();
             Console.Clear();
-            Console.WriteLine(RenderBoard(player.GetPersonalBoard()));
-            Console.WriteLine(player.GetName() + " it's time to pick a location to fire! Enter your location like: 'B5'\n\n");
-            string fireSpot = GetFireSpot(player);
-            bool result = player.FireMissile(fireSpot[0].ToString(), fireSpot[1].ToString());
-            return RenderTurnResult(player, result);
+            return (player1Name, player2Name);
+        }
 
+        public void RenderTurn()
+        {
+            Player player = gameController.getCurrentPlayer();
+            string fireSpot = GetFireSpot(player);
+            bool didHit = player.FireMissile(fireSpot[0].ToString(), fireSpot[1].ToString());
+            gameController.nextTurn();
+            RenderTurnResult(player, didHit);
         }
 
         private string GetFireSpot(Player player)
         {
+            Console.Clear();
+            Console.WriteLine(RenderBoard(player.GetPersonalBoard()));
+            Console.WriteLine(player.GetName() + " it's time to pick a location to fire! Enter your location like: 'B5'\n\n");
             string fireSpot = Console.ReadLine();
             while (true)
             {
@@ -66,11 +99,11 @@ namespace Battleship
             return fireSpot;
         }
 
-        private bool RenderTurnResult(Player player, bool result)
+        private void RenderTurnResult(Player player, bool didHit)
         {
             Console.Clear();
             Console.WriteLine(RenderBoard(player.GetPersonalBoard()));
-            if (result)
+            if (didHit)
             {
                 Console.WriteLine("You hit their ship, nice job! Press enter to end your turn");
                 Console.ReadLine();
@@ -83,14 +116,13 @@ namespace Battleship
             if (player.HasWon())
             {
                 Console.WriteLine(player.GetName() + " has sunk the battle ship and won!");
-                return true;
+                gameController.setGameOver();
             }
-            return false;
         }
 
-        public (string, string, string) RenderPlaceBoat(Player player)
+        public (string, string, string) RenderPlaceBoat()
         {
-
+            Player player = gameController.getCurrentPlayer();
             string playerString = player.GetName() + " it's time to pick your ship's location! \nUse w to go up, \ns to go down, \na to go left, \nd to go right, \nand r to rotate your ship 90 degrees. \nPress e when you have made your decision!\n\n";
             RenderCurrentBoats(player, playerString, "");
             while (true)
@@ -102,6 +134,7 @@ namespace Battleship
                     break;
                 }
             }
+            gameController.nextTurn();
             return player.GetBoatLocation();
         }
 

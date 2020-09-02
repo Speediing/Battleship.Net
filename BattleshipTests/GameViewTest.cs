@@ -6,15 +6,15 @@ using System.Linq;
 
 namespace BattleshipTests
 {
-    public class GameTest
+    public class GameViewTest
     {
-        private Game game;
+        private GameView gameView;
         private Board board;
         private Player player;
 
-        public GameTest()
+        public GameViewTest()
         {
-            game = new Game();
+            gameView = new GameView();
             board = new Board();
             player = new Player();
         }
@@ -57,7 +57,7 @@ namespace BattleshipTests
 -
             
 ";
-            string gameRenderedBoard = game.RenderBoard(board);
+            string gameRenderedBoard = gameView.RenderBoard(board);
             string sanitizedRenderedBoard = string.Concat(renderedBoard.Where(c => !char.IsWhiteSpace(c)));
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
@@ -101,7 +101,7 @@ namespace BattleshipTests
 -
             
 ";
-            string gameRenderedBoard = game.RenderBoardWithBoat("A", "1", "x");
+            string gameRenderedBoard = gameView.RenderBoardWithBoat("A", "1", "x");
             string sanitizedRenderedBoard = string.Concat(renderedBoard.Where(c => !char.IsWhiteSpace(c)));
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
@@ -145,7 +145,7 @@ namespace BattleshipTests
 -
             
 ";
-            string gameRenderedBoard = game.RenderBoardWithBoat("A", "1", "y");
+            string gameRenderedBoard = gameView.RenderBoardWithBoat("A", "1", "y");
             string sanitizedRenderedBoard = string.Concat(renderedBoard.Where(c => !char.IsWhiteSpace(c)));
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
@@ -154,23 +154,23 @@ namespace BattleshipTests
         [Fact]
         public void shouldValidateMissileInputIsTrue()
         {
-            Assert.True(game.ValidateMissileInput("A1"));
+            Assert.True(gameView.ValidateMissileInput("A1"));
         }
 
         [Fact]
         public void shouldValidateMissileInputIsFalse()
         {
-            Assert.False(game.ValidateMissileInput("Bad"));
+            Assert.False(gameView.ValidateMissileInput("Bad"));
         }
 
         [Fact]
         public void shouldMoveBoat()
         {
-            game.MoveBoat(player, "w");
-            game.MoveBoat(player,"a");
-            game.MoveBoat(player,"s");
-            game.MoveBoat(player,"d");
-            game.MoveBoat(player, "r");
+            gameView.MoveBoat(player, "w");
+            gameView.MoveBoat(player,"a");
+            gameView.MoveBoat(player,"s");
+            gameView.MoveBoat(player,"d");
+            gameView.MoveBoat(player, "r");
             Assert.Equal(("A", "1", "y"), player.GetBoatLocation());
         }
     }
