@@ -17,13 +17,13 @@ namespace Battleship
             stage = Stage.setNames;
         }
 
-        public Player getPlayer1() => player1;
+        public Player GetPlayer1() => player1;
 
-        public Player getPlayer2() => player2;
+        public Player GetPlayer2() => player2;
 
-        public Stage getCurrentStage() => stage;
+        public Stage GetCurrentStage() => stage;
 
-        public Player getCurrentPlayer()
+        public Player GetCurrentPlayer()
         {
             switch (turn)
             {
@@ -42,7 +42,27 @@ namespace Battleship
             }
         }
 
-        public void nextTurn()
+        public Player GetOpponentPlayer()
+        {
+            switch (turn)
+            {
+                case Turn.player1:
+                    {
+                        return player2;
+                    }
+                case Turn.player2:
+                    {
+                        return player1;
+                    }
+                default:
+                    {
+                        return player1;
+                    }
+            }
+        }
+
+
+        public void NextTurn()
         {
             switch (turn)
             {
@@ -59,23 +79,31 @@ namespace Battleship
             }
         }
 
-        public void SetPlayerBoatLocation((string, string, string) player1BoatLoaction, (string, string, string) player2BoatLoaction)
+   
+
+        public void SetPlayerBoatLocation((string, string, string) playerBoatLoaction)
         {
-            player1.SetOpponentBoatLocation(player2BoatLoaction);
-            player2.SetOpponentBoatLocation(player1BoatLoaction);
+            GetOpponentPlayer().SetOpponentBoatLocation(playerBoatLoaction);
             stage = Stage.fireMissile;
+            NextTurn();
         }
 
-        public void setPlayerNames(string player1Name, string player2Name)
+        public void SetPlayerNames(string player1Name, string player2Name)
         {
             player1.setName(player1Name);
             player2.setName(player2Name);
             stage = Stage.setBoats;
         }
 
-        public void setGameOver()
+        public bool FireMissile(string row, string column)
         {
-            stage = Stage.gameOver;
+            bool didHit = GetCurrentPlayer().FireMissile(row, column);
+            if (GetCurrentPlayer().HasWon())
+            {
+                stage = Stage.gameOver;
+            }
+            NextTurn();
+            return didHit;
         }
     }
 }
