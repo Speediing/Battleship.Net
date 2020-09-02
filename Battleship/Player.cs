@@ -39,7 +39,12 @@ namespace Battleship
             if (personalBoatLocation.Item1 == "F" && personalBoatLocation.Item3 == "x")
             {
                 personalBoatLocation.Item1 = "A";
-            } else {
+            }
+            else if (personalBoatLocation.Item1 == "H" && personalBoatLocation.Item3 == "y")
+            {
+                personalBoatLocation.Item1 = "A";
+            }
+            else {
                 int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
                 personalBoatLocation.Item1 = rows[rowIndex + 1];
             }
@@ -51,6 +56,10 @@ namespace Battleship
             {
                 personalBoatLocation.Item1 = "F";
             }
+            else if (personalBoatLocation.Item1 == "A" && personalBoatLocation.Item3 == "y")
+            {
+                personalBoatLocation.Item1 = "H";
+            }
             else
             {
                 int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
@@ -60,9 +69,13 @@ namespace Battleship
 
         public void MoveBoatDown()
         {
-            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "y")
+            if (personalBoatLocation.Item2 == "8" && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item2 = "7";
+                personalBoatLocation.Item2 = "1";
+            }
+            else if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "y")
+            {
+                personalBoatLocation.Item2 = "1";
             }
             else
             {
@@ -73,9 +86,13 @@ namespace Battleship
 
         public void MoveBoatUp()
         {
-            if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "y")
+            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item2 = "1";
+                personalBoatLocation.Item2 = "8";
+            }
+            else if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "y")
+            {
+                personalBoatLocation.Item2 = "6";
             }
             else
             {
