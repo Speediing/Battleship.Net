@@ -38,5 +38,12 @@ namespace Battleship
             }
             return board_string;
         }
+
+        public string RenderBoardWithBoat(string row, string column, string orientation)
+        {
+            Board dummyBoard = new Board();
+            dummyBoard.PlaceItem(row, column, orientation, "🚢");
+            return this.RenderBoard(dummyBoard);
+        }
     }
 }
