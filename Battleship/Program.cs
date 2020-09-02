@@ -17,6 +17,9 @@ namespace Battleship
             Console.WriteLine("What is the second players name?");
             string player2Name = Console.ReadLine();
             Game game = new Game();
+            Board board = new Board();
+            Console.WriteLine(game.RenderBoard(board));
+            string player2Name2 = Console.ReadLine();
         }
     }
 }
