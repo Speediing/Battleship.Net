@@ -100,7 +100,7 @@ namespace Battleship
         public void RenderTurnResult(bool didHit)
         {
             Console.Clear();
-            RenderCurrentPlayerBoard();
+            RenderOtherPlayersBoard();
             if (didHit)
             {
                 Console.WriteLine("You hit their ship, nice job! Press enter to end your turn");
@@ -148,9 +148,13 @@ namespace Battleship
             return boatLocation;
         }
 
+        public void RenderOtherPlayersBoard()
+        {
+            Console.WriteLine(RenderBoard(gameController.GetOpponentPlayer().GetPersonalBoard()));
+        }
         public void RenderCurrentPlayerBoard()
         {
-            Console.WriteLine(gameController.GetCurrentPlayer().GetPersonalBoard());
+            Console.WriteLine(RenderBoard(gameController.GetCurrentPlayer().GetPersonalBoard()));
         }
 
         public string RenderBoard(Board board)
