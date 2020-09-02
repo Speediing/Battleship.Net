@@ -91,7 +91,7 @@ namespace BattleshipTests
         }
 
         [Fact]
-        public void shoulHavedMissileHit()
+        public void shoulHaveMissileHit()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
             Assert.True(player.FireMissile("A", "1"));
@@ -107,7 +107,7 @@ namespace BattleshipTests
         }
 
         [Fact]
-        public void shouldHavePlayerLost()
+        public void shouldHavePlayerLose()
         {
             player.SetOpponentBoatLocation(("A", "1", "x"));
             Assert.Equal(false, player.HasWon());

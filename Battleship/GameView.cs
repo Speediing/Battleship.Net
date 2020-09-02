@@ -43,6 +43,7 @@ namespace Battleship
                         }
                     case Stage.gameOver:
                         {
+                            RenderGameOver();
                             gameInProgress = false;
                             break;
                         }
@@ -69,17 +70,16 @@ namespace Battleship
 
         public void RenderMissileTurn()
         {
-            Player player = gameController.GetCurrentPlayer();
-            string fireSpot = RenderGetFireSpot(player);
+            string fireSpot = RenderGetFireSpot();
             bool didHit = gameController.FireMissile(fireSpot[0].ToString(), fireSpot[1].ToString());
-            RenderTurnResult(player, didHit);
+            RenderTurnResult(didHit);
         }
 
-        public string RenderGetFireSpot(Player player)
+        public string RenderGetFireSpot()
         {
             Console.Clear();
             RenderCurrentPlayerBoard();
-            Console.WriteLine(player.GetName() + " it's time to pick a location to fire! Enter your location like: 'B5'\n\n");
+            Console.WriteLine(gameController.GetCurrentPlayerName() + " it's time to pick a location to fire! Enter your location like: 'B5'\n\n");
             string fireSpot = Console.ReadLine();
             while (true)
             {
@@ -89,7 +89,7 @@ namespace Battleship
                 }
                 else
                 {
-                    Console.WriteLine(player.GetName() + " your location was incorrectly formatted! Enter your location like: 'B5'\n\n");
+                    Console.WriteLine(gameController.GetCurrentPlayerName() + " your location was incorrectly formatted! Enter your location like: 'B5'\n\n");
                     fireSpot = Console.ReadLine();
                 }
             }
@@ -97,7 +97,7 @@ namespace Battleship
             return fireSpot;
         }
 
-        public void RenderTurnResult(Player player, bool didHit)
+        public void RenderTurnResult(bool didHit)
         {
             Console.Clear();
             RenderCurrentPlayerBoard();
@@ -111,10 +111,11 @@ namespace Battleship
                 Console.WriteLine("You missed :( Press enter to end your turn");
                 Console.ReadLine();
             }
-            if (player.HasWon())
-            {
-                Console.WriteLine(player.GetName() + " has sunk the battle ship and won!");
-            }
+        }
+
+        public void RenderGameOver()
+        {
+            Console.WriteLine(gameController.GetCurrentPlayerName() + " has sunk the battle ship and won!");
         }
 
         public (string, string, string) RenderPlaceBoat()

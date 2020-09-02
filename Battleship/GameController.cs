@@ -61,7 +61,6 @@ namespace Battleship
             }
         }
 
-
         public void NextTurn()
         {
             switch (turn)
@@ -79,7 +78,10 @@ namespace Battleship
             }
         }
 
-   
+        public string GetCurrentPlayerName()
+        {
+            return GetCurrentPlayer().GetName();
+        }
 
         public void SetPlayerBoatLocation((string, string, string) playerBoatLoaction)
         {

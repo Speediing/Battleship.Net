@@ -14,6 +14,13 @@ namespace BattleshipTests
         }
 
         [Fact]
+        public void shouldShowCurrentPlayerName()
+        {
+            gameController.SetPlayerNames("Jerry", "John");
+            Assert.Equal("name", gameController.GetCurrentPlayerName());
+        }
+
+        [Fact]
         public void shouldSetUserNames()
         {
             gameController.SetPlayerNames("Jerry", "John");
@@ -30,10 +37,25 @@ namespace BattleshipTests
         }
 
         [Fact]
+        public void shouldBeOnPlayer2AfterFirstBoatSelection()
+        {
+            gameController.SetPlayerBoatLocation(("A", "1", "r"));
+
+            Assert.Equal(gameController.GetPlayer2(), gameController.GetCurrentPlayer());
+        }
+
+        [Fact]
         public void shouldBeOnFireMissileAfterBoatSelection()
         {
             gameController.SetPlayerBoatLocation(("A", "1", "r"));
             Assert.Equal(Stage.fireMissile, gameController.GetCurrentStage());
+        }
+
+        [Fact]
+        public void shouldBeOnPlayer2AfterFireMissile()
+        {
+            gameController.FireMissile("A", "1");
+            Assert.Equal(gameController.GetPlayer2(), gameController.GetCurrentPlayer());
         }
 
         [Fact]
