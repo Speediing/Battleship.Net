@@ -159,22 +159,22 @@ namespace Battleship
         public void SetOpponentBoatLocation(BoatLocation location)
         {
             opponentsBoatLocation = location;
-            opponentBoard.PlaceItem(location, "x");
+            opponentBoard.PlaceItem(location, StringContants.BoatLocation);
         }
 
         public Boolean FireMissile(string row, string column)
         {
             string opponentSpot = opponentBoard.GetValueAtPosition(row, column);
-            if (opponentSpot == "x")
+            if (opponentSpot == StringContants.BoatLocation)
             {
-                personalBoard.PlaceMissile(row, column, "🚢");
-                opponentBoard.PlaceMissile(row, column, "HIT");
+                personalBoard.PlaceMissile(row, column, StringContants.BoatImage);
+                opponentBoard.PlaceMissile(row, column, StringContants.HitBoat);
                 missileHits += 1;
                 return true;
             }
             else
             {
-                personalBoard.PlaceMissile(row, column, "⭕");
+                personalBoard.PlaceMissile(row, column, StringContants.MissileMissImage);
                 return false;
             }
         }

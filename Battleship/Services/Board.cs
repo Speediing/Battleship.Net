@@ -55,7 +55,7 @@ namespace Battleship
                 board.Add(i, new Dictionary<string, string>() { });
                 foreach (string j in BoardDimentions.GetColumns())
                 {
-                    board[i][j] = "*";
+                    board[i][j] = StringContants.EmptySpot;
                 }
             }
             return board;

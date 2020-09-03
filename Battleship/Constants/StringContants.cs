@@ -1,10 +1,12 @@
 ﻿using System;
-namespace Battleship.Enumerations
+namespace Battleship
 {
-    public class Boat
+    public static class StringContants
     {
-        public Boat()
-        {
-        }
+        public static readonly string EmptySpot = "*";
+        public static readonly string BoatLocation = "^";
+        public static readonly string HitBoat = "^";
+        public static readonly string BoatImage = "🚢";
+        public static readonly string MissileMissImage = "⭕";
     }
 }
