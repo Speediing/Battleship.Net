@@ -81,6 +81,7 @@ namespace Battleship
         public string GetCurrentPlayerName()
         {
             return GetCurrentPlayer().GetName();
+
         }
 
         public void SetPlayerBoatLocation((string, string, string) playerBoatLoaction)
@@ -93,11 +94,19 @@ namespace Battleship
             NextTurn();
         }
 
+        public void SetBoardDimentions(int size)
+        {
+            BoardDimentions.GenerateDimentionsBySize(size);
+            player1.InitializeBoards();
+            player2.InitializeBoards();
+            stage = Stage.setBoats;
+        }
+
         public void SetPlayerNames(string player1Name, string player2Name)
         {
             player1.setName(player1Name);
             player2.setName(player2Name);
-            stage = Stage.setBoats;
+            stage = Stage.setDimentions;
         }
 
         public bool FireMissile(string row, string column)

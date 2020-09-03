@@ -14,9 +14,12 @@ namespace BattleshipTests
 
         public GameViewTest()
         {
+            BoardDimentions.GenerateDimentionsBySize(8);
             gameView = new GameView();
             board = new Board();
             player = new Player();
+            player.InitializeBoards();
+
         }
 
         [Fact]
@@ -161,6 +164,18 @@ namespace BattleshipTests
         public void shouldValidateMissileInputIsFalse()
         {
             Assert.False(gameView.ValidateMissileInput("Bad"));
+        }
+
+        [Fact]
+        public void shouldValidateDimentionInputIsTrue()
+        {
+            Assert.True(gameView.ValidateDimentionInput("6"));
+        }
+
+        [Fact]
+        public void shouldValidateDimentionInputIsFalse()
+        {
+            Assert.False(gameView.ValidateDimentionInput("Bad"));
         }
 
         [Fact]

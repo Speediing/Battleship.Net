@@ -12,6 +12,7 @@ namespace BattleshipTests
 
         public BoardTest()
         {
+            BoardDimentions.GenerateDimentionsBySize(8);
             board = new Board();
         }
 
