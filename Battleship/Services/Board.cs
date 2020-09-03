@@ -14,18 +14,20 @@ namespace Battleship
 
         public Dictionary<string, Dictionary<string, string>> ReturnBoard => this.boardValue;
 
-        public void PlaceItem(string row, string column, string orientation, string item)
+        public void PlaceItem(BoatLocation location, string item)
         {
-
+            string row = location.GetRow();
+            string column = location.GetColumn();
+            Orientation orientation = location.GetOrientation();
             int rowIndex = BoardDimentions.GetRows().IndexOf(row);
             int columnIndex = BoardDimentions.GetColumns().IndexOf(column);
-            if (orientation == "x")
+            if (orientation == Orientation.X)
             {
                 this.boardValue[row][column] = item;
                 this.boardValue[BoardDimentions.GetRows()[rowIndex + 1]][column] = item;
                 this.boardValue[BoardDimentions.GetRows()[rowIndex + 2]][column] = item;
             }
-            if (orientation == "y")
+            if (orientation == Orientation.Y)
             {
                 this.boardValue[row][column] = item;
                 this.boardValue[row][BoardDimentions.GetColumns()[columnIndex + 1]] = item;

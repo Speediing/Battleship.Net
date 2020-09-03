@@ -84,7 +84,7 @@ namespace Battleship
 
         }
 
-        public void SetPlayerBoatLocation((string, string, string) playerBoatLoaction)
+        public void SetPlayerBoatLocation(BoatLocation playerBoatLoaction)
         {
             GetOpponentPlayer().SetOpponentBoatLocation(playerBoatLoaction);
             if(turn == Turn.player2)

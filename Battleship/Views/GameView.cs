@@ -6,8 +6,6 @@ namespace Battleship
 {
     public class GameView
     {
-        private List<string> columns;
-        private List<string> rows;
         private GameController gameController;
 
         public GameView()
@@ -35,7 +33,7 @@ namespace Battleship
                         }
                     case Stage.setBoats:
                         {
-                            (string, string, string) playerBoatLocation = RenderPlaceBoat();
+                            BoatLocation playerBoatLocation = RenderPlaceBoat();
                             gameController.SetPlayerBoatLocation(playerBoatLocation);
                             break;
                         }
@@ -137,7 +135,7 @@ namespace Battleship
             Console.WriteLine(gameController.GetCurrentPlayerName() + " has sunk the battle ship and won!");
         }
 
-        public (string, string, string) RenderPlaceBoat()
+        public BoatLocation RenderPlaceBoat()
         {
             Player player = gameController.GetCurrentPlayer();
             string playerString = player.GetName() + " it's time to pick your ship's location! \nUse w to go up, \ns to go down, \na to go left, \nd to go right, \nand r to rotate your ship 90 degrees. \nPress e when you have made your decision!\n\n";
@@ -154,7 +152,7 @@ namespace Battleship
             return player.GetBoatLocation();
         }
 
-        public (string, string, string) RenderCurrentBoats(Player player, string playerString, string move)
+        public BoatLocation RenderCurrentBoats(Player player, string playerString, string move)
         {
             Console.Clear();
             Console.WriteLine(playerString);
@@ -162,8 +160,8 @@ namespace Battleship
             {
                 this.MoveBoat(player, move);
             }
-            (string, string, string) boatLocation = player.GetBoatLocation();
-            Console.WriteLine(RenderBoardWithBoat(boatLocation.Item1, boatLocation.Item2, boatLocation.Item3));
+            BoatLocation boatLocation = player.GetBoatLocation();
+            Console.WriteLine(RenderBoardWithBoat(boatLocation));
             return boatLocation;
         }
 
@@ -208,10 +206,10 @@ namespace Battleship
             return board_string;
         }
 
-        public string RenderBoardWithBoat(string row, string column, string orientation)
+        public string RenderBoardWithBoat(BoatLocation location)
         {
             Board dummyBoard = new Board();
-            dummyBoard.PlaceItem(row, column, orientation, "🚢");
+            dummyBoard.PlaceItem(location, "🚢");
             return this.RenderBoard(dummyBoard);
         }
 
