@@ -115,6 +115,7 @@ namespace Battleship
             if (GetCurrentPlayer().HasWon())
             {
                 stage = Stage.gameOver;
+                NextTurn();
             }
             NextTurn();
             return didHit;
