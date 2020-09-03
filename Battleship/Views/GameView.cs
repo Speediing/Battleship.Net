@@ -22,8 +22,7 @@ namespace Battleship
                 {
                     case Stage.setNames:
                         {
-                            (string, string) names = RenderGetPlayerNames();
-                            gameController.SetPlayerNames(names.Item1, names.Item2);
+                            RenderGetPlayerNames();
                             break;
                         }
                     case Stage.setDimentions:
@@ -33,8 +32,7 @@ namespace Battleship
                         }
                     case Stage.setBoats:
                         {
-                            BoatLocation playerBoatLocation = RenderPlaceBoat();
-                            gameController.SetPlayerBoatLocation(playerBoatLocation);
+                            RenderPlaceBoat();
                             break;
                         }
                     case Stage.fireMissile:
@@ -53,7 +51,7 @@ namespace Battleship
 
         }
 
-        public (string, string) RenderGetPlayerNames()
+        public void RenderGetPlayerNames()
         {
             Console.WriteLine(@"WELCOME TO JASON'S BATTLESHIP
                  __ / ___
@@ -65,7 +63,7 @@ namespace Battleship
             string player1Name = Console.ReadLine();
             Console.WriteLine("What is the second players name?");
             string player2Name = Console.ReadLine();
-            return (player1Name, player2Name);
+            gameController.SetPlayerNames(player1Name, player2Name);
         }
         public void RenderGetDimentions()
         {
@@ -135,7 +133,7 @@ namespace Battleship
             Console.WriteLine(gameController.GetCurrentPlayerName() + " has sunk the battle ship and won!");
         }
 
-        public BoatLocation RenderPlaceBoat()
+        public void RenderPlaceBoat()
         {
             Player player = gameController.GetCurrentPlayer();
             string playerString = player.GetName() + " it's time to pick your ship's location! \nUse w to go up, \ns to go down, \na to go left, \nd to go right, \nand r to rotate your ship 90 degrees. \nPress e when you have made your decision!\n\n";
@@ -149,7 +147,7 @@ namespace Battleship
                     break;
                 }
             }
-            return player.GetBoatLocation();
+            gameController.SetPlayerBoatLocation(player.GetBoatLocation());
         }
 
         public BoatLocation RenderCurrentBoats(Player player, string playerString, string move)
