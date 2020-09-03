@@ -12,8 +12,6 @@ namespace Battleship
 
         public GameView()
         {
-            rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
-            columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
             gameController = new GameController();
         }
 
@@ -28,6 +26,11 @@ namespace Battleship
                         {
                             (string, string) names = RenderGetPlayerNames();
                             gameController.SetPlayerNames(names.Item1, names.Item2);
+                            break;
+                        }
+                    case Stage.setDimentions:
+                        {
+                            RenderGetDimentions();
                             break;
                         }
                     case Stage.setBoats:
@@ -64,10 +67,26 @@ namespace Battleship
             string player1Name = Console.ReadLine();
             Console.WriteLine("What is the second players name?");
             string player2Name = Console.ReadLine();
-            Console.Clear();
             return (player1Name, player2Name);
         }
-
+        public void RenderGetDimentions()
+        {
+            Console.WriteLine("What is the size of the board you would like");
+            string size = Console.ReadLine();
+            while (true)
+            {
+                if (ValidateDimentionInput(size))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Try Again. Make sure you input a number between 5 and 20!\n\n");
+                    size = Console.ReadLine();
+                }
+            }
+            gameController.SetBoardDimentions(int.Parse(size));
+        }
         public void RenderMissileTurn()
         {
             string fireSpot = RenderGetFireSpot();
@@ -160,15 +179,22 @@ namespace Battleship
         public string RenderBoard(Board board)
         {
             string board_string = @"
-   |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   |
 ";
-            foreach (string column in columns)
+            foreach (string firstRow in BoardDimentions.GetRows())
+            {
+                board_string += "   |   ";
+                board_string += firstRow;
+
+            }
+            board_string += @"   |
+";
+            foreach (string column in BoardDimentions.GetColumns())
             {
                 board_string += @"-
 ";
                 board_string += column;
                 board_string += "  ";
-                foreach (string row in rows)
+                foreach (string row in BoardDimentions.GetRows())
                 {
                     board_string += "    ";
                     board_string += board.ReturnBoard[row][column];
@@ -191,13 +217,14 @@ namespace Battleship
 
         public bool ValidateMissileInput(string input)
         {
-            if (rows.Contains(input[0].ToString()) && columns.Contains(input[1].ToString())){
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (BoardDimentions.GetRows().Contains(input[0].ToString()) && BoardDimentions.GetColumns().Contains(input[1].ToString()));
+        }
+
+        public bool ValidateDimentionInput(string input)
+        {
+            int size;
+            bool validInt = int.TryParse(input, out size);
+            return validInt && size > 4 && size < 21;
         }
 
         public void MoveBoat(Player player, string move)

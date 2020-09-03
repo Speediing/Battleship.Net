@@ -11,7 +11,10 @@ namespace BattleshipTests
 
         public PlayerTest()
         {
+            BoardDimentions.GenerateDimentionsBySize(8);
             player = new Player();
+            player.InitializeBoards();
+            
         }
 
         [Fact]

@@ -8,8 +8,6 @@ namespace Battleship
         private string name;
         private Board personalBoard;
         private Board opponentBoard;
-        private List<string> columns;
-        private List<string> rows;
         private (string, string, string) personalBoatLocation;
         private (string, string, string) opponentsBoatLocation;
         private int missileHits;
@@ -17,10 +15,6 @@ namespace Battleship
         public Player(string name = "name")
         {
             this.name = name;
-            personalBoard = new Board();
-            opponentBoard = new Board();
-            rows = new List<string>() { "A", "B", "C", "D", "E", "F", "G", "H" };
-            columns = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8" };
             personalBoatLocation = ("A", "1", "x");
             opponentsBoatLocation = ("A", "1", "x");
             missileHits = 0;
@@ -39,89 +33,116 @@ namespace Battleship
             this.name = newName;
         }
 
+        public void InitializeBoards()
+        {
+            personalBoard = new Board();
+            opponentBoard = new Board();
+        }
+
         public void MoveBoatRight()
         {
-            if (personalBoatLocation.Item1 == "F" && personalBoatLocation.Item3 == "x")
+            int size = BoardDimentions.GetRows().Count;
+            string lastRow = BoardDimentions.GetRows()[size - 1];
+            string firstRow = BoardDimentions.GetRows()[0];
+            string secondlastRow = BoardDimentions.GetRows()[size - 3];
+            if (personalBoatLocation.Item1 == secondlastRow && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item1 = "A";
+                personalBoatLocation.Item1 = firstRow;
             }
-            else if (personalBoatLocation.Item1 == "H" && personalBoatLocation.Item3 == "y")
+            else if (personalBoatLocation.Item1 == lastRow && personalBoatLocation.Item3 == "y")
             {
-                personalBoatLocation.Item1 = "A";
+                personalBoatLocation.Item1 = firstRow;
             }
             else {
-                int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
-                personalBoatLocation.Item1 = rows[rowIndex + 1];
+                int rowIndex = BoardDimentions.GetRows().IndexOf(personalBoatLocation.Item1);
+                personalBoatLocation.Item1 = BoardDimentions.GetRows()[rowIndex + 1];
             }
         }
 
         public void MoveBoatLeft()
         {
-            if (personalBoatLocation.Item1 == "A" && personalBoatLocation.Item3 == "x")
+            int size = BoardDimentions.GetRows().Count;
+            string lastRow = BoardDimentions.GetRows()[size - 1];
+            string firstRow = BoardDimentions.GetRows()[0];
+            string secondlastRow = BoardDimentions.GetRows()[size - 3];
+            if (personalBoatLocation.Item1 == firstRow && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item1 = "F";
+                personalBoatLocation.Item1 = secondlastRow;
             }
-            else if (personalBoatLocation.Item1 == "A" && personalBoatLocation.Item3 == "y")
+            else if (personalBoatLocation.Item1 == firstRow && personalBoatLocation.Item3 == "y")
             {
-                personalBoatLocation.Item1 = "H";
+                personalBoatLocation.Item1 = lastRow;
             }
             else
             {
-                int rowIndex = rows.IndexOf(personalBoatLocation.Item1);
-                personalBoatLocation.Item1 = rows[rowIndex - 1];
+                int rowIndex = BoardDimentions.GetRows().IndexOf(personalBoatLocation.Item1);
+                personalBoatLocation.Item1 = BoardDimentions.GetRows()[rowIndex - 1];
             }
         }
 
         public void MoveBoatDown()
         {
-            if (personalBoatLocation.Item2 == "8" && personalBoatLocation.Item3 == "x")
+            int size = BoardDimentions.GetColumns().Count;
+            string lastColumn = BoardDimentions.GetColumns()[size - 1];
+            string firstColumn = BoardDimentions.GetColumns()[0];
+            string secondlastColumn = BoardDimentions.GetColumns()[size - 3];
+            if (personalBoatLocation.Item2 == lastColumn && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item2 = "1";
+                personalBoatLocation.Item2 = firstColumn;
             }
-            else if (personalBoatLocation.Item2 == "6" && personalBoatLocation.Item3 == "y")
+            else if (personalBoatLocation.Item2 == secondlastColumn && personalBoatLocation.Item3 == "y")
             {
-                personalBoatLocation.Item2 = "1";
+                personalBoatLocation.Item2 = firstColumn;
             }
             else
             {
-                int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
-                personalBoatLocation.Item2 = columns[columnIndex + 1];
+                int columnIndex = BoardDimentions.GetColumns().IndexOf(personalBoatLocation.Item2);
+                personalBoatLocation.Item2 = BoardDimentions.GetColumns()[columnIndex + 1];
             }
         }
 
         public void MoveBoatUp()
         {
-            if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "x")
+            int size = BoardDimentions.GetColumns().Count;
+            string lastColumn = BoardDimentions.GetColumns()[size - 1];
+            string firstColumn = BoardDimentions.GetColumns()[0];
+            string secondlastColumn = BoardDimentions.GetColumns()[size - 3];
+            if (personalBoatLocation.Item2 == firstColumn && personalBoatLocation.Item3 == "x")
             {
-                personalBoatLocation.Item2 = "8";
+                personalBoatLocation.Item2 = lastColumn;
             }
-            else if (personalBoatLocation.Item2 == "1" && personalBoatLocation.Item3 == "y")
+            else if (personalBoatLocation.Item2 == firstColumn && personalBoatLocation.Item3 == "y")
             {
-                personalBoatLocation.Item2 = "6";
+                personalBoatLocation.Item2 = secondlastColumn;
             }
             else
             {
-                int columnIndex = columns.IndexOf(personalBoatLocation.Item2);
-                personalBoatLocation.Item2 = columns[columnIndex - 1];
+                int columnIndex = BoardDimentions.GetColumns().IndexOf(personalBoatLocation.Item2);
+                personalBoatLocation.Item2 = BoardDimentions.GetColumns()[columnIndex - 1];
             }
         }
 
         public void RotateBoat()
         {
-            if (personalBoatLocation.Item2 == "7" && personalBoatLocation.Item3 == "x")
+            int size = BoardDimentions.GetColumns().Count;
+            string lastColumn = BoardDimentions.GetColumns()[size - 1];
+            string secondlastColumn = BoardDimentions.GetColumns()[size - 2];
+            string lastRow = BoardDimentions.GetRows()[size - 1];
+            string secondlastRow = BoardDimentions.GetRows()[size - 2];
+            if (personalBoatLocation.Item2 == secondlastColumn && personalBoatLocation.Item3 == "x")
             {
                 this.MoveBoatUp();
             }
-            if (personalBoatLocation.Item2 == "8" && personalBoatLocation.Item3 == "x")
+            if (personalBoatLocation.Item2 == lastColumn && personalBoatLocation.Item3 == "x")
             {
                 this.MoveBoatUp();
                 this.MoveBoatUp();
             }
-            if (personalBoatLocation.Item1 == "G" && personalBoatLocation.Item3 == "y")
+            if (personalBoatLocation.Item1 == secondlastRow && personalBoatLocation.Item3 == "y")
             {
                 this.MoveBoatLeft();
             }
-            if (personalBoatLocation.Item1 == "H" && personalBoatLocation.Item3 == "y")
+            if (personalBoatLocation.Item1 == lastRow && personalBoatLocation.Item3 == "y")
             {
                 this.MoveBoatLeft();
                 this.MoveBoatLeft();

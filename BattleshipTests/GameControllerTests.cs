@@ -11,6 +11,7 @@ namespace BattleshipTests
         public GameControllerTests()
         {
             gameController = new GameController();
+            gameController.SetBoardDimentions(8);
         }
 
         [Fact]
@@ -29,10 +30,17 @@ namespace BattleshipTests
         }
 
         [Fact]
-        public void shouldBeOnBoatSelectionAfterNameSelection()
+        public void shouldBeOnDimentionsSelectionAfterNameSelection()
         {
             gameController.SetPlayerNames("Jerry", "John");
             
+            Assert.Equal(Stage.setDimentions, gameController.GetCurrentStage());
+        }
+
+        [Fact]
+        public void shouldBeOnBoatSelectionAfterDimentionSelection()
+        {
+            gameController.SetBoardDimentions(8);
             Assert.Equal(Stage.setBoats, gameController.GetCurrentStage());
         }
 
