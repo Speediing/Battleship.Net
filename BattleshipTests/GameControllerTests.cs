@@ -47,7 +47,8 @@ namespace BattleshipTests
         [Fact]
         public void shouldBeOnPlayer2AfterFirstBoatSelection()
         {
-            gameController.SetPlayerBoatLocation(("A", "1", "r"));
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
+            gameController.SetPlayerBoatLocation(location);
 
             Assert.Equal(gameController.GetPlayer2(), gameController.GetCurrentPlayer());
         }
@@ -55,8 +56,9 @@ namespace BattleshipTests
         [Fact]
         public void shouldBeOnFireMissileAfterBoatSelection()
         {
-            gameController.SetPlayerBoatLocation(("A", "1", "r"));
-            gameController.SetPlayerBoatLocation(("A", "1", "r"));
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
+            gameController.SetPlayerBoatLocation(location);
+            gameController.SetPlayerBoatLocation(location);
             Assert.Equal(Stage.fireMissile, gameController.GetCurrentStage());
         }
 
@@ -70,8 +72,9 @@ namespace BattleshipTests
         [Fact]
         public void shouldSetBoatLocations()
         {
-            gameController.SetPlayerBoatLocation(("A", "1", "r"));
-            Assert.Equal(("A", "1", "r"), gameController.GetPlayer2().GetOpponentBoatLocation());
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
+            gameController.SetPlayerBoatLocation(location);
+            Assert.Equal(location, gameController.GetPlayer2().GetOpponentBoatLocation());
         }
 
         [Fact]

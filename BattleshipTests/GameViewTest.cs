@@ -69,6 +69,7 @@ namespace BattleshipTests
         [Fact]
         public void shouldRenderGameWithBoat()
         {
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
             string renderedBoard = @"
    |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   |
 -
@@ -104,7 +105,7 @@ namespace BattleshipTests
 -
             
 ";
-            string gameRenderedBoard = gameView.RenderBoardWithBoat("A", "1", "x");
+            string gameRenderedBoard = gameView.RenderBoardWithBoat(location);
             string sanitizedRenderedBoard = string.Concat(renderedBoard.Where(c => !char.IsWhiteSpace(c)));
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
@@ -113,6 +114,7 @@ namespace BattleshipTests
         [Fact]
         public void shouldRenderGameWithYAxisBoat()
         {
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
             string renderedBoard = @"
    |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   |
 -
@@ -148,7 +150,7 @@ namespace BattleshipTests
 -
             
 ";
-            string gameRenderedBoard = gameView.RenderBoardWithBoat("A", "1", "y");
+            string gameRenderedBoard = gameView.RenderBoardWithBoat(location);
             string sanitizedRenderedBoard = string.Concat(renderedBoard.Where(c => !char.IsWhiteSpace(c)));
             string sanitizedGameRenderedBoard = string.Concat(gameRenderedBoard.Where(c => !char.IsWhiteSpace(c)));
             Assert.Equal(sanitizedRenderedBoard, sanitizedGameRenderedBoard);
@@ -181,12 +183,13 @@ namespace BattleshipTests
         [Fact]
         public void shouldMoveBoat()
         {
+            BoatLocation location = new BoatLocation("A", "1", Orientation.X);
             gameView.MoveBoat(player, "w");
             gameView.MoveBoat(player,"a");
             gameView.MoveBoat(player,"s");
             gameView.MoveBoat(player,"d");
             gameView.MoveBoat(player, "r");
-            Assert.Equal(("A", "1", "y"), player.GetBoatLocation());
+            Assert.Equal(location, player.GetBoatLocation());
         }
     }
 }

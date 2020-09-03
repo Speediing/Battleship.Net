@@ -7,5 +7,9 @@
 
   <ItemGroup>
     <Folder Include="Enumerations\" />
+    <Folder Include="Constants\" />
+    <Folder Include="Views\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

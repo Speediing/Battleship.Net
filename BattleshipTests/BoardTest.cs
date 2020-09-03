@@ -46,8 +46,8 @@ namespace BattleshipTests
                 { "H", new Dictionary<string, string>() { { "1", "*" }, { "3", "*" }, { "2", "*" }, { "5", "*" }, { "4", "*" }, { "7", "*" }, { "6", "*" }, { "8", "*" } } }
             };
             Console.WriteLine(this.board.ReturnBoard["B"]);
-            
-            this.board.PlaceItem("B", "3", "x", "🚢");
+            BoatLocation location = new BoatLocation("B", "3", Orientation.X);
+            this.board.PlaceItem(location, "🚢");
             Assert.Equal(this.board.ReturnBoard, testBoard);
         }
 
