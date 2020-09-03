@@ -207,7 +207,7 @@ namespace Battleship
         public string RenderBoardWithBoat(BoatLocation location)
         {
             Board dummyBoard = new Board();
-            dummyBoard.PlaceItem(location, "🚢");
+            dummyBoard.PlaceItem(location, StringContants.BoatImage);
             return this.RenderBoard(dummyBoard);
         }
 
